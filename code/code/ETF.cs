@@ -10,8 +10,8 @@ namespace code
     {
         public string Basis { get; set; }
 
-        public ETF(string name, string isinNummer, string basis)
-            : base(name, isinNummer)
+        public ETF(string name, string isinNummer, string basis)    // Konstruktor ETF
+            : base(name, isinNummer)    // Übernimmt 'name' & 'isinNummer' Variablen von 'Wertpapier' Konstruktor
         {
             Basis = basis;
         }

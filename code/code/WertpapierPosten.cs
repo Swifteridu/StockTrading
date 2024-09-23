@@ -8,11 +8,11 @@ namespace code
 {
     public class WertpapierPosten
     {
-        public int Anzahl { get; set; }
+        public int Anzahl { get; set; } 
         public double Preis { get; set; }
         public Wertpapier Wertpapier { get; set; }
 
-        public WertpapierPosten(int anzahl, double preis, Wertpapier wertpapier)
+        public WertpapierPosten(int anzahl, double preis, Wertpapier wertpapier) // Konstruktor WertpapierPosten
         {
             Anzahl = anzahl;
             Preis = preis;
