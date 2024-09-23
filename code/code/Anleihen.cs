@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace code
 {
-    internal class Anleihen
+    public class Anleihen : Wertpapier
     {
+        public DateTime Laufzeit { get; set; }
+        public double Kouponwert { get; set; }
+
+        public Anleihen(string name, string isinNummer, DateTime laufzeit, double kouponwert)
+            : base(name, isinNummer)
+        {
+            Laufzeit = laufzeit;
+            Kouponwert = kouponwert;
+        }
     }
 }
