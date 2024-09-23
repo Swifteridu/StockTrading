@@ -48,6 +48,7 @@
     <Compile Include="Bank.cs" />
     <Compile Include="ETF.cs" />
     <Compile Include="Kunde.cs" />
+    <Compile Include="Kurs.cs" />
     <Compile Include="Optionsschein.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="Program.cs" />
