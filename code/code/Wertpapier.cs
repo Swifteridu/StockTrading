@@ -11,6 +11,8 @@ namespace code
         public string Name { get; set; }
         public string ISIN_Nummer { get; set; }
 
+        List<Kurs> kurs = new List<Kurs>();
+
         public Wertpapier(string name, string isinNummer)
         {
             Name = name;
