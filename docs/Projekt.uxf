@@ -144,7 +144,8 @@ Optionsschein
       <w>196</w>
       <h>154</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
+    <panel_attributes>lt=&lt;-
+1..n</panel_attributes>
     <additional_attributes>260.0;200.0;10.0;200.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -192,7 +193,8 @@ WertpapierPosten
       <w>210</w>
       <h>140</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
+    <panel_attributes>lt=&lt;-
+1..1</panel_attributes>
     <additional_attributes>10.0;180.0;280.0;180.0;280.0;10.0</additional_attributes>
   </element>
   <element>
@@ -200,10 +202,11 @@ WertpapierPosten
     <coordinates>
       <x>1078</x>
       <y>238</y>
-      <w>21</w>
+      <w>35</w>
       <h>119</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
+    <panel_attributes>lt=&lt;-
+1..n</panel_attributes>
     <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -263,9 +266,8 @@ Kurs
 --
 -datum: date(get;, set;)
 -wert: double(get;, set;)
--datum: date(get;, set;)
 --
-+Kurs(datum:date, wert:double, anzahl:int);</panel_attributes>
++Kurs(datum:date, wert:double);</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -273,10 +275,11 @@ Kurs
     <coordinates>
       <x>784</x>
       <y>434</y>
-      <w>21</w>
+      <w>35</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;-
+1..n</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
 </diagram>
