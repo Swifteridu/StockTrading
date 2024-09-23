@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>707</x>
+      <y>203</y>
+      <w>168</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Kunde&gt;&gt;
+--
+-name: string(get;,set;)
+-vorname: string(get;,set;)
+-portfolio: Portfolio
+--
++Kunde(string, string, portfolio);
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>462</x>
+      <y>343</y>
+      <w>154</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Bank&gt;&gt;
+--
+-wertpapierListe: List&lt;Wertpapier&gt;
+--
++Bank(List&lt;Wertpapier&gt;);
++Kaufen();
++Verkaufen();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>700</x>
+      <y>532</y>
+      <w>217</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract Class&gt;&gt;
+Wertpapier
+--
+-Namen: string
+-ISIN_Nummer: string
+--
++Wertpapier(name:string, ISIN_Nummer:string)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>448</x>
+      <y>700</y>
+      <w>336</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+Aktie
+--
+-kuerzel: string(get;,set;)
+-devidende: double(get;,set;)
+--
++Aktie(name:string, ISIN_Nummer:string, kuerzel:string, devidende:double);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1043</x>
+      <y>700</y>
+      <w>350</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+Anleihen
+--
+-laufzeit: date(get;,set;)
+-kouponwert: double(get;,set;)
+--
++Anleihen(name:string, ISIN_Nummer:string, laufzeit:date, kouponwert:double);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>798</x>
+      <y>700</y>
+      <w>238</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+ETF
+--
+-basis: string(get;,set;)
+--
++ETF(name:string, ISIN_Nummer:string, basis:string);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>21</x>
+      <y>700</y>
+      <w>392</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+Optionsschein
+--
+-laufzeitEnde: date(get;,set;)
+-bezeichner: string(get;,set;)
+--
++Optionsschein(name:string, ISIN_Nummer:string, laufzeitEnde:date, bezeichner:string);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>868</x>
+      <y>231</y>
+      <w>112</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+1..1</panel_attributes>
+    <additional_attributes>140.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>518</x>
+      <y>427</y>
+      <w>196</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>260.0;200.0;10.0;200.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>966</x>
+      <y>196</y>
+      <w>189</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+Portfolio
+--
+-wertpapierListe: List&lt;WertpapierPosten&gt;
+--
++Portfolio(List&lt;WertpapierPosten&gt;);
++Kaufen()
++Verkaufen()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>924</x>
+      <y>378</y>
+      <w>280</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract Class&gt;&gt;
+WertpapierPosten
+--
+-anzahl: int(get;, set;)
+-preis: double(get;, set;)
+-wertpapier: Wertpapier:
+--
++Wertpapier(anzahl: int, preis: double, wertpapier: wertpapier)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>910</x>
+      <y>455</y>
+      <w>168</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;160.0;220.0;160.0;220.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1057</x>
+      <y>273</y>
+      <w>21</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>602</y>
+      <w>532</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>740.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>609</x>
+      <y>602</y>
+      <w>175</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>230.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>833</x>
+      <y>602</y>
+      <w>91</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>882</x>
+      <y>602</y>
+      <w>357</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;490.0;140.0</additional_attributes>
+  </element>
+</diagram>
