@@ -4,16 +4,17 @@
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>707</x>
-      <y>203</y>
+      <x>714</x>
+      <y>189</y>
       <w>168</w>
-      <h>84</h>
+      <h>98</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Kunde&gt;&gt;
 --
 -name: string(get;,set;)
 -vorname: string(get;,set;)
 -portfolio: Portfolio
+-buget: double(get;, set;)
 --
 +Kunde(string, string, portfolio);
 
@@ -125,14 +126,14 @@ Optionsschein
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>868</x>
+      <x>875</x>
       <y>231</y>
-      <w>112</w>
+      <w>105</w>
       <h>28</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 1..1</panel_attributes>
-    <additional_attributes>140.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
