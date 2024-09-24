@@ -62,8 +62,8 @@ namespace code
 
                                 case "Aktie":
                                     string kuerzel = teil1[5];
-                                    double devidende = double.Parse(teil1[6]);
-                                    liste.Add(new WertpapierPosten(anzahl, wert, new Aktie(Tname, isinNummer, kuerzel, devidende)));
+                                    double dividende = double.Parse(teil1[6]);
+                                    liste.Add(new WertpapierPosten(anzahl, wert, new Aktie(Tname, isinNummer, kuerzel, dividende)));
                                     break;
 
                                 case "Anleihen":
