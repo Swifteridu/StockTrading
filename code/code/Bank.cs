@@ -8,19 +8,21 @@ namespace code
 {
     public class Bank
     {
-        public List<Wertpapier> WertpapierListe { get; set; }
+        public List<WertpapierPosten> WertpapierListe { get; set; }
 
-        public Bank(List<Wertpapier> wertpapierListe)
+        public Bank(List<WertpapierPosten> wertpapierListe)
         {
             WertpapierListe = wertpapierListe;
         }
 
-        public void Kaufen(WertpapierPosten posten)
+        public void WerpapierLaden()
         {
-            Console.WriteLine("Wertpapier von der Bank gekauft: " + posten.Wertpapier.Name);
+            WertpapierListe.Add(new WertpapierPosten(3, 200.0, new ETF("bsn", "us6383939", "edmf")));
+            WertpapierListe.Add(new WertpapierPosten(3, 200.0, new ETF("lol", "unee939", "mfkf")));
+            WertpapierListe.Add(new WertpapierPosten(3, 200.0, new ETF("huen", "us638ee444", "nama")));
         }
 
-        public void Verkaufen(WertpapierPosten posten)
+        public void WertpapierSpeichern()
         {
             Console.WriteLine("Wertpapier an die Bank verkauft: " + posten.Wertpapier.Name);
         }
