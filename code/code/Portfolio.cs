@@ -68,8 +68,8 @@ namespace code
 
                                 case "Anleihen":
                                     DateTime laufzeit = DateTime.Parse(teil1[5]);
-                                    double koubonwert = double.Parse(teil1[6]);
-                                    liste.Add(new WertpapierPosten(anzahl, wert, new Anleihen(Tname, isinNummer, laufzeit, koubonwert)));
+                                    double couponwert = double.Parse(teil1[6]);
+                                    liste.Add(new WertpapierPosten(anzahl, wert, new Anleihen(Tname, isinNummer, laufzeit, couponwert)));
                                     break;
                             }
                         }
