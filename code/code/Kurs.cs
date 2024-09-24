@@ -10,12 +10,11 @@ namespace code
     {
         DateTime Datum {  get; set; }
         double Wert { get; set; }
-        int Anzahlkurse {  get; set; }
+        
 
-        public Kurs(DateTime _datum, double _wert, int _anzahlkurse) { 
+        public Kurs(DateTime _datum, double _wert) { 
             Datum = _datum;
             Wert = _wert;
-            Anzahlkurse = _anzahlkurse;
         }
     }
 }
