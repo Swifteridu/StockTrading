@@ -4,6 +4,7 @@ using System.Windows;
 using System.Net.Http;
 using System.Globalization;
 using System.Xml.Linq;
+using Newtonsoft.Json;
 
 namespace Projekt_swe
 {
