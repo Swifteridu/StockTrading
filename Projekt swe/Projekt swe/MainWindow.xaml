@@ -1,0 +1,34 @@
+﻿<Window x:Class="Projekt_swe.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Aktienhandel und Portfoliomanagement" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Portfolio">
+                <StackPanel>
+                    <TextBlock Text="Ihr Portfolio" FontSize="16" Margin="10"/>
+                    <ListBox x:Name="PortfolioListe" Height="200" Margin="10"/>
+                    <Button Content="Aktualisieren" Width="100" Margin="10" Click="AktualisierePortfolio_Click"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Wertpapiere handeln">
+                <StackPanel>
+                    <TextBlock Text="Wertpapiere" FontSize="16" Margin="10"/>
+                    <ListBox x:Name="WertpapierListe" Height="200" Margin="10"/>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <Button Content="Kaufen" Width="100" Click="KaufeWertpapier_Click"/>
+                        <Button Content="Verkaufen" Width="100" Margin="10,0,0,0" Click="VerkaufeWertpapier_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Kursverlauf">
+                <StackPanel>
+                    <TextBlock Text="Kursverlauf anzeigen" FontSize="16" Margin="10"/>
+                    <ComboBox x:Name="WertpapierAuswahl" Width="200" Margin="10"/>
+                    <Button Content="Anzeigen" Width="100" Margin="10" Click="ZeigeKursverlauf_Click"/>
+                    <ListBox x:Name="KursverlaufListe" Height="200" Margin="10"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
