@@ -9,12 +9,12 @@ namespace Projekt_swe
     public class Anleihe : Wertpapier
     {
         public DateTime Laufzeit { get; set; }
-        public double Kouponwert { get; set; }
+        public double Couponwert { get; set; }
 
         public Anleihe(string name, string isin, DateTime laufzeit, double kouponwert) : base(name, isin)
         {
             Laufzeit = laufzeit;
-            Kouponwert = kouponwert;
+            Couponwert = kouponwert;
         }
     }
 }

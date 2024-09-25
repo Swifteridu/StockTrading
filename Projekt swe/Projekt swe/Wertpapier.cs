@@ -18,5 +18,15 @@ namespace Projekt_swe
             ISIN = isin;
             KursListe = new List<Kurs>();
         }
+
+        // Füge eine Eigenschaft hinzu, die den letzten Kurswert zurückgibt
+        public double AktuellerKurs
+        {
+            get
+            {
+                // Wenn KursListe leer ist, gib 0 zurück, andernfalls den letzten Kurswert
+                return KursListe.Any() ? KursListe.Last().Wert : 0;
+            }
+        }
     }
 }

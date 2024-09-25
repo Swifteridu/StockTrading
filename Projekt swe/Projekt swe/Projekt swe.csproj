@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="Optionsschein.cs" />
     <Compile Include="Portfolio.cs" />
+    <Compile Include="PortfolioItem.cs" />
     <Compile Include="Wertpapier.cs" />
     <Compile Include="WertpapierPosten.cs" />
     <Page Include="Login.xaml">

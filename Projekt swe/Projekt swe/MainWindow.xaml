@@ -7,8 +7,13 @@
         mc:Ignorable="d"
         Title="Aktienhandelssystem" Height="640" Width="1000">
     <Grid>
+        <!-- Logout Button -->
         <Button Content="Ausloggen" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Click="LogoutButton_Click" />
+
+        <!-- Tab Control für Kauf und Portfolio -->
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,40,0,0">
+
+            <!-- Tab für den Kauf von Wertpapieren -->
             <TabItem Header="Kaufen">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
@@ -16,9 +21,23 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
+
+                    <!-- Liste der verfügbaren Wertpapiere -->
                     <StackPanel Grid.Row="0">
                         <TextBlock Text="Verfügbare Wertpapiere:" FontWeight="Bold" />
-                        <ListBox Name="lstAvailableSecurities" Height="150" DisplayMemberPath="Name" SelectionChanged="lstAvailableSecurities_SelectionChanged" />
+                        <ListBox Name="lstAvailableSecurities" Height="150" SelectionChanged="lstAvailableSecurities_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                        <TextBlock Text=" - " />
+                                        <TextBlock Text="{Binding ISIN}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <!-- Kauf-Interface -->
                         <TextBlock Text="Anzahl:" />
                         <TextBox Name="txtQuantityToBuy" />
                         <Button Content="Kaufen" Click="BuyButton_Click" />
@@ -39,15 +58,32 @@
                 </Grid>
             </TabItem>
 
+            <!-- Tab für das Portfolio -->
             <TabItem Header="Portfolio">
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="13*"/>
-                        <ColumnDefinition Width="961*"/>
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="961*" />
                     </Grid.ColumnDefinitions>
+
+                    <!-- Portfolio-Anzeige -->
                     <StackPanel Grid.ColumnSpan="2">
                         <TextBlock Text="Ihr Portfolio:" FontWeight="Bold" />
-                        <ListBox Name="lstPortfolio" Height="200" DisplayMemberPath="Wertpapier.Name" />
+                        <ListBox Name="lstPortfolio" Height="200">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding WertpapierName}" FontWeight="Bold" />
+                                        <TextBlock Text=" - " />
+                                        <TextBlock Text="{Binding ISIN}" />
+                                        <TextBlock Text=" | Anzahl: " />
+                                        <TextBlock Text="{Binding Anzahl}" FontWeight="Bold" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <!-- Verkaufs-Interface -->
                         <TextBlock Text="Anzahl zu verkaufen:" />
                         <TextBox Name="txtQuantityToSell" />
                         <Button Content="Verkaufen" Click="SellButton_Click" />
