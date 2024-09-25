@@ -5,44 +5,52 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Aktienhandelssystem" Height="600" Width="1000">
+        Title="Aktienhandelssystem" Height="640" Width="1000">
     <Grid>
-        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Button Content="Ausloggen" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Click="LogoutButton_Click" />
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,40,0,0">
             <TabItem Header="Kaufen">
                 <Grid Margin="10">
-                    <StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
                         <TextBlock Text="Verfügbare Wertpapiere:" FontWeight="Bold" />
-                        <ListBox Name="lstAvailableSecurities" Height="150" DisplayMemberPath="Name" />
+                        <ListBox Name="lstAvailableSecurities" Height="150" DisplayMemberPath="Name" SelectionChanged="lstAvailableSecurities_SelectionChanged" />
                         <TextBlock Text="Anzahl:" />
                         <TextBox Name="txtQuantityToBuy" />
                         <Button Content="Kaufen" Click="BuyButton_Click" />
                     </StackPanel>
+
+                    <!-- Kursverlauf Darstellung -->
+                    <StackPanel Grid.Row="2" Margin="0,20,0,0">
+                        <TextBlock Text="Kursverlauf:" FontWeight="Bold" />
+                        <lvc:CartesianChart Name="chartKursverlauf" Height="300">
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Tage" Labels="{Binding Labels}" />
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Kurs" LabelFormatter="{Binding Formatter}" />
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </StackPanel>
                 </Grid>
             </TabItem>
+
             <TabItem Header="Portfolio">
                 <Grid Margin="10">
-                    <StackPanel>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13*"/>
+                        <ColumnDefinition Width="961*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.ColumnSpan="2">
                         <TextBlock Text="Ihr Portfolio:" FontWeight="Bold" />
                         <ListBox Name="lstPortfolio" Height="200" DisplayMemberPath="Wertpapier.Name" />
                         <TextBlock Text="Anzahl zu verkaufen:" />
                         <TextBox Name="txtQuantityToSell" />
                         <Button Content="Verkaufen" Click="SellButton_Click" />
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Kursverläufe">
-                <Grid Margin="10">
-                    <StackPanel>
-                        <TextBlock Text="Wählen Sie ein Wertpapier:" FontWeight="Bold" />
-                        <ComboBox Name="cmbSecuritiesForChart" DisplayMemberPath="Name" SelectionChanged="cmbSecuritiesForChart_SelectionChanged"/>
-                        <lvc:CartesianChart Name="chartKursverlauf" Height="300">
-                            <lvc:CartesianChart.AxisX>
-                                <lvc:Axis Title="Tage" Labels="{Binding Labels}"/>
-                            </lvc:CartesianChart.AxisX>
-                            <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Title="Kurs" LabelFormatter="{Binding Formatter}"/>
-                            </lvc:CartesianChart.AxisY>
-                        </lvc:CartesianChart>
                     </StackPanel>
                 </Grid>
             </TabItem>

@@ -15,13 +15,24 @@ namespace Projekt_swe
         public string[] Labels { get; set; }
         public Func<double, string> Formatter { get; set; }
 
-        public MainWindow()
+        private string currentUser;
+
+        public MainWindow(string user)
         {
             InitializeComponent();
+            currentUser = user;
             InitializeData();
             LoadAvailableSecurities();
             LoadPortfolio();
-            LoadComboBox();
+            MessageBox.Show($"Willkommen, {currentUser}!", "Login Erfolgreich");
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Zurück zum Login-Fenster
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
+            this.Close();
         }
 
         private void InitializeData()
@@ -44,9 +55,14 @@ namespace Projekt_swe
             // Portfolio und Kunde erstellen
             Portfolio portfolio = new Portfolio(new List<WertpapierPosten>());
             kunde = new Kunde("Müller", "Max", portfolio, 10000);
+
+            // Initialisiere den Chart
+            SeriesCollection = new SeriesCollection();
+            Labels = new string[0];
+            Formatter = value => value.ToString("N");
+            chartKursverlauf.Series = SeriesCollection;
         }
 
-        // Generiert die Kursverläufe nur einmal für alle Wertpapiere
         private void GenerateKursverlaeufe()
         {
             var random = new Random();
@@ -72,11 +88,6 @@ namespace Projekt_swe
         {
             lstPortfolio.ItemsSource = null;
             lstPortfolio.ItemsSource = kunde.Portfolio.WertpapierListe;
-        }
-
-        private void LoadComboBox()
-        {
-            cmbSecuritiesForChart.ItemsSource = bank.WertpapierListe;
         }
 
         private void BuyButton_Click(object sender, RoutedEventArgs e)
@@ -107,24 +118,22 @@ namespace Projekt_swe
             }
         }
 
-        private void cmbSecuritiesForChart_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void lstAvailableSecurities_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (cmbSecuritiesForChart.SelectedItem is Wertpapier selectedWertpapier)
+            if (lstAvailableSecurities.SelectedItem is Wertpapier selectedWertpapier)
             {
-                // Lade den bestehenden Kursverlauf des ausgewählten Wertpapiers
+                // Lade den Kursverlauf des ausgewählten Wertpapiers
                 var values = selectedWertpapier.KursListe.Select(k => k.Wert).ToArray();
                 Labels = selectedWertpapier.KursListe.Select(k => k.Datum.Day.ToString()).ToArray();
 
-                SeriesCollection = new SeriesCollection
+                SeriesCollection.Clear();
+                SeriesCollection.Add(new LineSeries
                 {
-                    new LineSeries
-                    {
-                        Title = selectedWertpapier.Name,
-                        Values = new LiveCharts.ChartValues<double>(values)
-                    }
-                };
+                    Title = selectedWertpapier.Name,
+                    Values = new LiveCharts.ChartValues<double>(values)
+                });
 
-                chartKursverlauf.Series = SeriesCollection;
+                chartKursverlauf.AxisX[0].Labels = Labels;
                 DataContext = this;
             }
         }

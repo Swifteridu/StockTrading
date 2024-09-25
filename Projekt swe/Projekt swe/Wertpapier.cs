@@ -9,13 +9,13 @@ namespace Projekt_swe
     public abstract class Wertpapier
     {
         public string Name { get; set; }
-        public string ISIN_Nummer { get; set; }
+        public string ISIN { get; set; }
         public List<Kurs> KursListe { get; set; }
 
         public Wertpapier(string name, string isin)
         {
             Name = name;
-            ISIN_Nummer = isin;
+            ISIN = isin;
             KursListe = new List<Kurs>();
         }
     }
