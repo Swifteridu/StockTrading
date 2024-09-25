@@ -9,13 +9,13 @@ namespace code
     public class Anleihen : Wertpapier
     {
         public DateTime Laufzeit { get; set; }
-        public double Kouponwert { get; set; }
+        public double Couponwert { get; set; }
 
-        public Anleihen(string name, string isinNummer, DateTime laufzeit, double kouponwert)
+        public Anleihen(string name, string isinNummer, DateTime laufzeit, double couponwert)
             : base(name, isinNummer)
         {
             Laufzeit = laufzeit;
-            Kouponwert = kouponwert;
+            Couponwert = couponwert;
         }
     }
 }

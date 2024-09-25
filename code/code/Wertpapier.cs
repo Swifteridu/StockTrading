@@ -18,5 +18,7 @@ namespace code
             Name = name;
             ISIN_Nummer = isinNummer;
         }
+
+       
     }
 }

@@ -4,22 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Xml.Linq;
+using System.ComponentModel;
+using System.Data;
 
 namespace code
 {
     public class Portfolio
     {
         public List<WertpapierPosten> WertpapierListe { get; set; }
+        string datei = "Personendaten.txt";
+        string vorname;
+        string name;
 
-        public Portfolio(List<WertpapierPosten> wertpapierListe)
+        public Portfolio(string vorname, string name)
         {
-            WertpapierListe = wertpapierListe;
-        }
-
-        public List<WertpapierPosten> PortfolioLaden(string name, string vorname)
-        {
+            this.vorname = vorname;
+            this.name = name;
             List<WertpapierPosten> liste = new List<WertpapierPosten>();
-            string datei = "Personendaten.txt";
 
             // Datei öffnen
             using (StreamReader str = new StreamReader(datei))
@@ -76,7 +78,37 @@ namespace code
                     }
                 }
             }
-            return liste;
+            WertpapierListe = liste;
+        }
+
+        
+
+        public void Portfoliospeichern()
+        {
+            StreamWriter stw = new StreamWriter(datei, true);
+            stw.WriteLine(vorname + ";" + name);
+            foreach (WertpapierPosten item in WertpapierListe)
+            {
+                if(item.Wertpapier is ETF etf)
+                {
+                    stw.WriteLine(item.Anzahl + ";" + item.Preis + ";ETF;" + etf.Name + ";" + etf.ISIN_Nummer + ";" + etf.Basis);
+                }
+                if (item.Wertpapier is Aktie aktie)
+                {
+                    stw.WriteLine(item.Anzahl + ";" + item.Preis + ";Aktie;" + aktie.Name + ";" + etf.ISIN_Nummer + ";" + aktie.Kuerzel + ";" + aktie.Dividende);
+                }
+                if (item.Wertpapier is Anleihen anleihen)
+                {
+                    stw.WriteLine(item.Anzahl + ";" + item.Preis + ";Anleihen;" + anleihen.Name + ";" + anleihen.ISIN_Nummer + ";" + anleihen.Laufzeit + ";" + anleihen.Couponwert);
+                }
+                if (item.Wertpapier is Optionsschein optionsschein)
+                {
+                    stw.WriteLine(item.Anzahl + ";" + item.Preis + ";Optionsschein;" + optionsschein.Name + ";" + optionsschein.ISIN_Nummer + ";" + optionsschein.LaufzeitEnde + ";" + optionsschein.Bezeichner);
+                }
+            }
+            stw.WriteLine();
+            stw.Close();
+
         }
     }
 }

@@ -10,21 +10,12 @@ namespace code
     {
         public List<WertpapierPosten> WertpapierListe { get; set; }
 
-        public Bank(List<WertpapierPosten> wertpapierListe)
+        public Bank()
         {
-            WertpapierListe = wertpapierListe;
-        }
-
-        public void WerpapierLaden()
-        {
-            WertpapierListe.Add(new WertpapierPosten(3, 200.0, new ETF("bsn", "us6383939", "edmf")));
-            WertpapierListe.Add(new WertpapierPosten(3, 200.0, new ETF("lol", "unee939", "mfkf")));
-            WertpapierListe.Add(new WertpapierPosten(3, 200.0, new ETF("huen", "us638ee444", "nama")));
-        }
-
-        public void WertpapierSpeichern()
-        {
-            Console.WriteLine("Wertpapier an die Bank verkauft: " + posten.Wertpapier.Name);
+            WertpapierListe.Add(new WertpapierPosten(1, 50, new ETF("Apple", "us29939939", "APL")));
+            WertpapierListe.Add(new WertpapierPosten(1, 50, new Aktie("Microsoft", "us25364893", "MCS", 23)));
+            WertpapierListe.Add(new WertpapierPosten(1, 50, new Anleihen("Steam", "us29425633",new DateTime(20-12-2025), 45)));
+            WertpapierListe.Add(new WertpapierPosten(1, 50, new Optionsschein("BMW", "us29435562", new DateTime(23-07-2026),"BMW-Schein"));
         }
     }
 }
