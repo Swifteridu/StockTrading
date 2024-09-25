@@ -1,165 +1,132 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
-using System.Net.Http;
-using System.Globalization;
-using System.Xml.Linq;
-using Newtonsoft.Json;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace Projekt_swe
 {
     public partial class MainWindow : Window
     {
-        private Dictionary<string, Wertpapier> wertpapierListe = new Dictionary<string, Wertpapier>();
-        private Dictionary<string, Portfolio> portfolioListe = new Dictionary<string, Portfolio>();
-        private const string ApiSchlüssel = "3GXOPWZ0Z9OBUN5U";
-        private const string BasisApiUrl = "https://www.alphavantage.co/query";
+        private Bank bank;
+        private Kunde kunde;
+        public SeriesCollection SeriesCollection { get; set; }
+        public string[] Labels { get; set; }
+        public Func<double, string> Formatter { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            AktualisiereWertpapierListe();
+            InitializeData();
+            LoadAvailableSecurities();
+            LoadPortfolio();
+            LoadComboBox();
         }
 
-        // Aktualisieren des Wertpapier-Tab-Elements
-        private void AktualisiereWertpapierListe()
+        private void InitializeData()
         {
-            WertpapierListe.Items.Clear();
-            foreach (var wertpapier in wertpapierListe.Values)
+            // Beispiel-Wertpapiere
+            var wertpapierListe = new List<Wertpapier>
             {
-                WertpapierListe.Items.Add($"{wertpapier.Name} ({wertpapier.ISIN_Nummer})");
-            }
+                new Aktie("Apple", "US0378331005", "AAPL", 0.1),
+                new ETF("DAX ETF", "DE000ETFL", "DAX"),
+                new Anleihe("PCC Anleihe", "DE000A351K90", new DateTime(2028, 7, 1), 5.0),
+                new Optionsschein("Option AAPL", "US0378331004", new DateTime(2024, 10, 15), "PUT")
+            };
+
+            // Bank erstellen
+            bank = new Bank(wertpapierListe);
+
+            // Kursverläufe für die Wertpapiere nur einmal generieren
+            GenerateKursverlaeufe();
+
+            // Portfolio und Kunde erstellen
+            Portfolio portfolio = new Portfolio(new List<WertpapierPosten>());
+            kunde = new Kunde("Müller", "Max", portfolio, 10000);
         }
 
-        // Aktualisieren des Portfolio-Tab-Elements
-        private void AktualisierePortfolio_Click(object sender, RoutedEventArgs e)
+        // Generiert die Kursverläufe nur einmal für alle Wertpapiere
+        private void GenerateKursverlaeufe()
         {
-            PortfolioListe.Items.Clear();
-            foreach (var portfolio in portfolioListe.Values)
+            var random = new Random();
+            foreach (var wertpapier in bank.WertpapierListe)
             {
-                PortfolioListe.Items.Add($"Portfolio: {portfolio.Name}, Totalwert: {portfolio.BerechnePortfolioWert():C}");
-            }
-        }
+                double lastValue = random.Next(50, 81);
 
-        // Kaufen eines Wertpapiers
-        private void KaufeWertpapier_Click(object sender, RoutedEventArgs e)
-        {
-            if (WertpapierListe.SelectedItem == null)
-            {
-                MessageBox.Show("Bitte wählen Sie ein Wertpapier aus der Liste.");
-                return;
-            }
-
-            string ausgewähltesWertpapier = WertpapierListe.SelectedItem.ToString().Split(' ')[0];
-            if (wertpapierListe.ContainsKey(ausgewähltesWertpapier))
-            {
-                var wertpapier = wertpapierListe[ausgewähltesWertpapier];
-
-                if (!portfolioListe.ContainsKey("MeinPortfolio"))
+                // Zufälliger Verlauf über 14 Tage
+                for (int i = 1; i <= 14; i++)
                 {
-                    portfolioListe["MeinPortfolio"] = new Portfolio("MeinPortfolio");
-                }
-
-                portfolioListe["MeinPortfolio"].FügeWertpapierHinzu(wertpapier, 1); // 1 Stück hinzufügen als Beispiel
-                MessageBox.Show($"Sie haben 1 Stück von {wertpapier.Name} gekauft.");
-            }
-        }
-
-        // Verkaufen eines Wertpapiers
-        private void VerkaufeWertpapier_Click(object sender, RoutedEventArgs e)
-        {
-            if (WertpapierListe.SelectedItem == null)
-            {
-                MessageBox.Show("Bitte wählen Sie ein Wertpapier aus der Liste.");
-                return;
-            }
-
-            string ausgewähltesWertpapier = WertpapierListe.SelectedItem.ToString().Split(' ')[0];
-            if (wertpapierListe.ContainsKey(ausgewähltesWertpapier) && portfolioListe.ContainsKey("MeinPortfolio"))
-            {
-                var wertpapier = wertpapierListe[ausgewähltesWertpapier];
-                portfolioListe["MeinPortfolio"].EntferneWertpapier(wertpapier, 1); // 1 Stück entfernen als Beispiel
-                MessageBox.Show($"Sie haben 1 Stück von {wertpapier.Name} verkauft.");
-            }
-        }
-
-        // Anzeige des Kursverlaufs eines Wertpapiers
-        private void ZeigeKursverlauf_Click(object sender, RoutedEventArgs e)
-        {
-            if (WertpapierAuswahl.SelectedItem == null)
-            {
-                MessageBox.Show("Bitte wählen Sie ein Wertpapier aus.");
-                return;
-            }
-
-            string ausgewähltesWertpapier = WertpapierAuswahl.SelectedItem.ToString();
-            if (wertpapierListe.ContainsKey(ausgewähltesWertpapier))
-            {
-                KursverlaufListe.Items.Clear();
-                foreach (var kurs in wertpapierListe[ausgewähltesWertpapier].kursListe)
-                {
-                    KursverlaufListe.Items.Add($"{kurs.Datum.ToShortDateString()}: {kurs.Wert:C}");
+                    lastValue = Math.Max(0, lastValue + random.NextDouble() * 10 - 5);
+                    wertpapier.KursListe.Add(new Kurs(DateTime.Now.AddDays(i), lastValue));
                 }
             }
         }
 
-        // Beispielmethode
-        private async void LadeAktienDaten(string symbol)
+        private void LoadAvailableSecurities()
         {
-            try
+            lstAvailableSecurities.ItemsSource = bank.WertpapierListe;
+        }
+
+        private void LoadPortfolio()
+        {
+            lstPortfolio.ItemsSource = null;
+            lstPortfolio.ItemsSource = kunde.Portfolio.WertpapierListe;
+        }
+
+        private void LoadComboBox()
+        {
+            cmbSecuritiesForChart.ItemsSource = bank.WertpapierListe;
+        }
+
+        private void BuyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (lstAvailableSecurities.SelectedItem is Wertpapier selectedWertpapier && int.TryParse(txtQuantityToBuy.Text, out int quantity))
             {
-                HttpClient client = new HttpClient();
-                string apiUrl = $"{BasisApiUrl}?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={ApiSchlüssel}";
+                bank.Kaufen(kunde, selectedWertpapier, quantity);
+                LoadPortfolio();
+                MessageBox.Show($"{quantity}x {selectedWertpapier.Name} gekauft!");
+            }
+            else
+            {
+                MessageBox.Show("Bitte eine gültige Anzahl eingeben und ein Wertpapier auswählen.");
+            }
+        }
 
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                response.EnsureSuccessStatusCode();
-                string jsonResponse = await response.Content.ReadAsStringAsync();
+        private void SellButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (lstPortfolio.SelectedItem is WertpapierPosten selectedPosten && int.TryParse(txtQuantityToSell.Text, out int quantity))
+            {
+                bank.Verkaufen(kunde, selectedPosten.Wertpapier, quantity);
+                LoadPortfolio();
+                MessageBox.Show($"{quantity}x {selectedPosten.Wertpapier.Name} verkauft!");
+            }
+            else
+            {
+                MessageBox.Show("Bitte eine gültige Anzahl eingeben und ein Wertpapier aus Ihrem Portfolio auswählen.");
+            }
+        }
 
-                // Deserialisiere die JSON-Antwort in ein Dictionary
-                var daten = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonResponse);
+        private void cmbSecuritiesForChart_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (cmbSecuritiesForChart.SelectedItem is Wertpapier selectedWertpapier)
+            {
+                // Lade den bestehenden Kursverlauf des ausgewählten Wertpapiers
+                var values = selectedWertpapier.KursListe.Select(k => k.Wert).ToArray();
+                Labels = selectedWertpapier.KursListe.Select(k => k.Datum.Day.ToString()).ToArray();
 
-                // Extrahiere die "Time Series (Daily)" Daten
-                var zeitreihe = daten["Time Series (Daily)"] as Dictionary<string, Dictionary<string, string>>;
-
-                if (zeitreihe != null)
+                SeriesCollection = new SeriesCollection
                 {
-                    List<Kurs> kursListe = new List<Kurs>();
-
-                    foreach (var tag in zeitreihe)
+                    new LineSeries
                     {
-                        string datum = tag.Key;
-
-                        // Hole den Schlusskurs ("4. close")
-                        if (tag.Value.TryGetValue("4. close", out string closePreisStr))
-                        {
-                            double preis = Convert.ToDouble(closePreisStr, CultureInfo.InvariantCulture);
-
-                            // Füge den Kurs zur Liste hinzu
-                            kursListe.Add(new Kurs(DateTime.Parse(datum), preis));
-                        }
+                        Title = selectedWertpapier.Name,
+                        Values = new LiveCharts.ChartValues<double>(values)
                     }
+                };
 
-                    // Prüfe, ob die Aktie schon in der Liste ist, wenn nicht, füge sie hinzu
-                    if (!wertpapierListe.ContainsKey(symbol))
-                    {
-                        Aktie aktie = new Aktie("Aktie", symbol, symbol, 0);
-                        aktie.kursListe = kursListe;
-                        wertpapierListe.Add(symbol, aktie);
-                    }
-
-                    // Aktualisiere die Wertpapier-Liste
-                    AktualisiereWertpapierListe();
-                }
-                else
-                {
-                    MessageBox.Show("Keine Daten gefunden.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fehler beim Abrufen der Daten: {ex.Message}");
+                chartKursverlauf.Series = SeriesCollection;
+                DataContext = this;
             }
         }
-
     }
 }

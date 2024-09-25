@@ -8,50 +8,32 @@ namespace Projekt_swe
 {
     public class Portfolio
     {
-        public string Name { get; set; }
-        public Dictionary<string, WertpapierPosten> WertpapierPositionen { get; set; }
+        public List<WertpapierPosten> WertpapierListe { get; set; }
 
-        public Portfolio(string name)
+        public Portfolio(List<WertpapierPosten> wertpapierListe)
         {
-            Name = name;
-            WertpapierPositionen = new Dictionary<string, WertpapierPosten>();
+            WertpapierListe = wertpapierListe;
         }
 
-        public void FügeWertpapierHinzu(Wertpapier wertpapier, int anzahl)
+        public void Kaufen(WertpapierPosten posten)
         {
-            if (WertpapierPositionen.ContainsKey(wertpapier.ISIN_Nummer))
+            WertpapierListe.Add(posten);
+            Console.WriteLine($"Gekauft: {posten.Anzahl}x {posten.Wertpapier.Name} zu {posten.Preis} pro Stück");
+        }
+
+        public void Verkaufen(Wertpapier wertpapier, int anzahl)
+        {
+            var posten = WertpapierListe.Find(p => p.Wertpapier == wertpapier);
+            if (posten != null && posten.Anzahl >= anzahl)
             {
-                WertpapierPositionen[wertpapier.ISIN_Nummer].Anzahl += anzahl;
+                posten.Anzahl -= anzahl;
+                if (posten.Anzahl == 0) WertpapierListe.Remove(posten);
+                Console.WriteLine($"Verkauft: {anzahl}x {wertpapier.Name}");
             }
             else
             {
-                WertpapierPositionen[wertpapier.ISIN_Nummer] = new WertpapierPosten(wertpapier, anzahl);
+                Console.WriteLine("Verkauf nicht möglich.");
             }
-        }
-
-        public void EntferneWertpapier(Wertpapier wertpapier, int anzahl)
-        {
-            if (WertpapierPositionen.ContainsKey(wertpapier.ISIN_Nummer))
-            {
-                WertpapierPositionen[wertpapier.ISIN_Nummer].Anzahl -= anzahl;
-                if (WertpapierPositionen[wertpapier.ISIN_Nummer].Anzahl <= 0)
-                {
-                    WertpapierPositionen.Remove(wertpapier.ISIN_Nummer);
-                }
-            }
-        }
-
-        public double BerechnePortfolioWert()
-        {
-            double gesamtwert = 0;
-            foreach (var posten in WertpapierPositionen.Values)
-            {
-                if (posten.Wertpapier.kursListe.Count > 0)
-                {
-                    gesamtwert += posten.Wertpapier.kursListe[0].Wert * posten.Anzahl;
-                }
-            }
-            return gesamtwert;
         }
     }
 }

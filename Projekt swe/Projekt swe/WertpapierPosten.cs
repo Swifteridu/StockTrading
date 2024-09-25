@@ -8,13 +8,15 @@ namespace Projekt_swe
 {
     public class WertpapierPosten
     {
-        public Wertpapier Wertpapier { get; set; }
         public int Anzahl { get; set; }
+        public double Preis { get; set; }
+        public Wertpapier Wertpapier { get; set; }
 
-        public WertpapierPosten(Wertpapier wertpapier, int anzahl)
+        public WertpapierPosten(int anzahl, double preis, Wertpapier wertpapier)
         {
-            Wertpapier = wertpapier;
             Anzahl = anzahl;
+            Preis = preis;
+            Wertpapier = wertpapier;
         }
     }
 }
