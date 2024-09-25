@@ -1,0 +1,16 @@
+﻿<Window x:Class="Projekt_swe.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login" Height="300" Width="400">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Wählen Sie Ihren Benutzer:" FontSize="16" FontWeight="Bold" Margin="0,0,0,20" />
+            <ComboBox Name="cmbUsers" Width="200" Margin="0,0,0,10">
+                <ComboBoxItem Content="Zakaria" />
+                <ComboBoxItem Content="Dominik" />
+                <ComboBoxItem Content="Silas" />
+            </ComboBox>
+            <Button Content="Login" Width="100" Click="LoginButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
