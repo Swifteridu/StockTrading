@@ -1,4 +1,4 @@
 Entwickler:
-Zakaria (Swifteridu)
-Silas (Shirasu)
+Zakaria (Swifteridu),
+Silas (Shirasu),
 Dominik (Kazuto)
